@@ -6,7 +6,7 @@ import { Route, Switch, BrowserRouter, Redirect } from 'react-router-dom'
 import GlobalPage from './pages/GlobalPage'
 import TokenPage from './pages/TokenPage'
 import PairPage from './pages/PairPage'
-import { useGlobalData, useGlobalChartData } from './contexts/GlobalData'
+import { /* useGlobalData, */ useGlobalChartData } from './contexts/GlobalData'
 import { isAddress } from './utils'
 import AccountPage from './pages/AccountPage'
 import AllTokensPage from './pages/AllTokensPage'
@@ -19,11 +19,15 @@ import LocalLoader from './components/LocalLoader'
 import { useLatestBlocks } from './contexts/Application'
 import GoogleAnalyticsReporter from './components/analytics/GoogleAnalyticsReporter'
 import { PAIR_BLACKLIST, TOKEN_BLACKLIST } from './constants'
+import bg from './bg.png'
 
 const AppWrapper = styled.div`
   position: relative;
   width: 100%;
+  background-image: url(${bg});
+  background-size: 100% auto;
 `
+
 const ContentWrapper = styled.div`
   display: grid;
   grid-template-columns: ${({ open }) => (open ? '220px 1fr 200px' : '220px 1fr 64px')};
@@ -68,12 +72,12 @@ const WarningWrapper = styled.div`
 `
 
 const WarningBanner = styled.div`
-  background-color: #ff6871;
+  background-color: hotpink;
   padding: 1.5rem;
   color: white;
   width: 100%;
   text-align: center;
-  font-weight: 500;
+  font-weight: 1000;
 `
 
 /**
@@ -98,12 +102,14 @@ const BLOCK_DIFFERENCE_THRESHOLD = 30
 function App() {
   const [savedOpen, setSavedOpen] = useState(false)
 
-  const globalData = useGlobalData()
+  // const globalData = useGlobalData()
   const globalChartData = useGlobalChartData()
   const [latestBlock, headBlock] = useLatestBlocks()
 
   // show warning
   const showWarning = headBlock && latestBlock ? headBlock - latestBlock > BLOCK_DIFFERENCE_THRESHOLD : false
+
+  console.log(globalChartData)
 
   return (
     <ApolloProvider client={client}>
@@ -111,14 +117,14 @@ function App() {
         {showWarning && (
           <WarningWrapper>
             <WarningBanner>
-              {`Warning: The data on this site has only synced to Ethereum block ${latestBlock} (out of ${headBlock}). Please check back soon.`}
+              {`Aguas: Los datos de este sitio solo estan sincronizados al bloque ${latestBlock} (de ${headBlock}). Plis  regresa pronto!`}
             </WarningBanner>
           </WarningWrapper>
         )}
-        {globalData &&
+        {true /* globalData &&
         Object.keys(globalData).length > 0 &&
         globalChartData &&
-        Object.keys(globalChartData).length > 0 ? (
+        Object.keys(globalChartData).length > 0 */ ? (
           <BrowserRouter>
             <Route component={GoogleAnalyticsReporter} />
             <Switch>
